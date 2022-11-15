@@ -1,0 +1,5 @@
+{
+    "username": "USERNAME",
+    "pwd_bin": "PATH_TO_PASSWORD_FILE",
+    "root_path": "PATH_TO_WHERE_REPO_IS/ecg-ieeg"
+}
