@@ -40,7 +40,7 @@ from tqdm import tqdm
 
 import matplotlib
 # matplotlib.use('Qt5Agg')
-#%%
+|#%%
 # config
 with open("../config.json", "rb") as f:
     config = json.load(f)
@@ -157,8 +157,8 @@ for i_pt, pt in tqdm(patient_table.iterrows(), total=len(patient_table), desc='p
 
     for i_times, times in tqdm(all_times.iterrows(), total=len(all_times), desc='clips', position=1, leave=False):
         eeg_fname = ospj(eeg_fldr, f"{times['Name']}.edf")
-        if os.path.exists(eeg_fname):
-            continue
+        # if os.path.exists(eeg_fname):
+        #     continue
 
         data, fs = tools.get_iEEG_data(
             config['username'],
@@ -192,7 +192,7 @@ for i_pt, pt in tqdm(patient_table.iterrows(), total=len(patient_table), desc='p
         )
 
         edf_obj = mne.io.RawArray(
-            data=data_filt.T,
+            data=data_filt.T / 1e6, # mne needs data in volts
             info=info,
             verbose=False
         )
@@ -200,7 +200,8 @@ for i_pt, pt in tqdm(patient_table.iterrows(), total=len(patient_table), desc='p
 
         mne.export.export_raw(
             fname=eeg_fname,
-            raw=edf_obj
+            raw=edf_obj,
+            overwrite=True
         )
 
 
